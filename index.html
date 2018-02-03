@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="zh-CN">
+    <title>藏品管理系统-中国美术学院</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="applicable-device" content="pc,mobile">
+    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="iconfont/iconfont.css">
+    <link rel="stylesheet" href="css/element.min.css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script>
+        /*判断浏览器版本是否过低*/
+        function IETester(userAgent) {
+            var UA = userAgent || navigator.userAgent;
+            if (/msie/i.test(UA)) {
+                return UA.match(/msie (\d+\.\d+)/i)[1];
+            } else if (~UA.toLowerCase().indexOf('trident') && ~UA.indexOf('rv')) {
+                return UA.match(/rv:(\d+\.\d+)/)[1];
+            }
+            return false;
+        }
+        //console.log(IETester());//不传参数返回当前IE版本，如果不是IE内核浏览器，返回false
+        if (IETester() == 9.0) {
+            //window.location.href = 'iepoint/index.html';
+        } else if (IETester() == 8.0 || IETester() == 7.0 || IETester() == 6.0 || IETester() == 5.0) {
+            window.location.href = 'iepoint/index.html';
+        }
+
+        // 动态设置font-size
+        (function () {
+            var cw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            if (cw < 769) {
+                document.getElementsByTagName("html")[0].style.fontSize = 20 * (cw / 375) + 'px';
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <div id="index" class="public-wap">
+        <!-- 页面未加载完时的loading -->
+        <div class="loading" :class="{'loading-close':loading}">
+            <i class="el-icon-loading"></i>
+        </div>
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="./images/logo.png" alt="logo" class="logo-img float-left">
+                <div class="logo-text float-left">
+                    <p>设计艺术学院</p>
+                    <p>藏品管理系统</p>
+                </div>
+            </div>
+            <div class="search">
+                <el-input placeholder="请输入关键字" v-model="search_value" class="" @keyup.enter.native="propSearch()"></el-input>
+                <i class="el-icon-search" @click="propSearch()"></i>
+            </div>
+        </div>
+        <!-- Banner -->
+        <div class="banner">
+            <el-carousel trigger="click" :style="{height:slide_height}">
+                <el-carousel-item v-for="item in slideList" :key="item.id">
+                    <a :href="item.slide_img_url">
+                        <img :src="item.slide_img" :style="{height:slide_height}">
+                    </a>
+                </el-carousel-item>
+            </el-carousel>
+        </div>
+        <!-- 筛选 -->
+        <div class="filter">
+            <div class="filter-top">
+                <div class="filter-container">
+                    <ul>
+                        <li v-for="item in filterList" :key="item.id" @click="filter_data(item.filter_value)" class="float-left" :class="{'li-active':item.filter_active}">{{item.filter_name}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="filter-bottom">
+                <div class="filter-container">
+                    <div class="filter-center">
+                        <el-select v-model="departmentValue" placeholder="所属系别" clearable>
+                            <el-option v-for="item in departmentList" :key="item.id" :label="item.department_name" :value="item.department_value"
+                                :disabled="item.disabled">
+                            </el-option>
+                        </el-select>
+                        <el-select v-model="dateListValue" placeholder="创作时间" clearable>
+                            <el-option v-for="item in dateList" :key="item.id" :label="item.date_name" :value="item.date_value" :disabled="item.disabled">
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 页面主体 -->
+        <div class="wrapper">
+        </div>
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-container">
+                <div class="footer-info float-left">
+                    <p>© CopyRight 2017-{{this_year}}, 中国美术学院设计艺术学院, Inc.All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/axios.min.js"></script>
+<script src="js/element.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#index',
+        data: {
+            loading: false, //页面加载完取消loading
+            this_year: new Date().getFullYear(), //当前年份
+            slideList: [], //轮播列表
+            slide_height: 0, //轮播高度
+            screen_width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, //页面可视区域宽度
+            search_value: '',
+            filterList: [], //筛选
+            departmentList: [], //所属系别
+            departmentValue: '', //所属系别
+            dateList: [], //创作时间
+            dateListValue: [] //创作时间
+        },
+        mounted: function () {
+            var that = this;
+            window.onresize = function () {
+                that.screen_width = window.innerWidth || document.documentElement.clientWidth ||
+                    document.body.clientWidth;
+                that.slide_height = (that.screen_width / 1920 * 500) + 'px'; //设置轮播元素高度
+            }
+            //获取轮播数据
+            function getSlide() {
+                return axios.get('./mock/slide.json');
+            }
+            //获取展示数据
+            function getCollectionList() {
+                return axios.get('./mock/collection.json');
+            }
+            //获取筛选数据
+            function getFilterList() {
+                return axios.get('./mock/filter.json');
+            }
+            //获取所属系别
+            function getDepartmentList() {
+                return axios.get('./mock/departmentList.json');
+            }
+            //获取创作时间
+            function getDateList() {
+                return axios.get('./mock/dateList.json');
+            }
+            //ajax并发
+            axios.all([getSlide(), getCollectionList(), getFilterList(), getDepartmentList(), getDateList()])
+                .then(axios.spread(function (slide, collection, filterList, departmentList, dateList) {
+                    // 请求现在都执行完成
+                    that.slideList = slide.data; //设置轮播数据
+                    that.slide_height = (that.screen_width / 1920 * 500) + 'px'; //设置轮播元素高度
+                    that.loading = true; //加载完成
+                    that.filterList = filterList.data; //设置筛选数据
+                    that.departmentList = departmentList.data; //设置所属系别数据
+                    that.dateList = dateList.data; //设置创作时间数据
+                }));
+        },
+        methods: {
+            propSearch: function () {
+                sessionStorage.setItem('search_keyword', this.search_value);
+            },
+            filter_data(val) {
+                var that = this;
+                axios({
+                    method: "get", //需要把get改成post
+                    url: './mock/collection.json',
+                    data: {
+                        filter_value: val,
+                    },
+                    //格式化
+                    transformRequest: [
+                        function (data) {
+                            var ret = "";
+                            for (var i = 0; i < data.length; i++) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            ret = ret.slice(0, -1); // 去掉最后的空行
+                            return ret;
+                        }
+                    ],
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                }).then(function (res) {
+                    console.log(res.data);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        },
+    })
+</script>
+
+</html>

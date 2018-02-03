@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head lang="zh-CN">
+    <title>ie低版本浏览器升级提示</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/base.css" rel="stylesheet">
+
+    <script type="text/javascript" src="js/iepngfix_tilebg.js"></script>
+    <style type="text/css">
+        * {
+            overflow: hidden;
+        }
+
+        div, span, img {
+            behavior: url("js/iepngfix.htc");
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-width: 1200px;
+            background: url("images/background.jpg") no-repeat center;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            -ms-background-size: cover;
+            overflow: hidden;
+        }
+
+        body #ie_point {
+            text-align: center;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        body #ie_point .big_img {
+            width: 495px;
+            height: 323px;
+            background-image: url("images/t-1.png"); /* FF IE7 */
+            background-repeat: no-repeat;
+            background-size: cover;
+            -ms-background-size: cover;
+            margin: 0 auto;
+        }
+
+        body #ie_point h3 {
+            font-size: 24px;
+            color: #fff;
+            margin-top: 1%; /*24*/
+            margin-bottom: 7%; /*162px*/
+        }
+
+        body #ie_point .browser_type {
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        body #ie_point .browser_type ul {
+            width: 100%;
+            height: 100%;
+        }
+
+        body #ie_point .browser_type ul li {
+            width: 399px;
+            height: 100%;
+            float: left;
+            border-right: 1px solid #4b697f;
+        }
+
+        body #ie_point .browser_type ul li:last-child {
+            border-right: 0;
+        }
+
+        body #ie_point .browser_type ul .last_li {
+            border-right: 0;
+        }
+
+        body #ie_point .browser_type ul li a {
+            display: block;
+            position: relative;
+            cursor: pointer;
+        }
+
+        body #ie_point .browser_type ul li a span {
+            display: block;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        body #ie_point .browser_type ul .first_li a span {
+            background-image: url("images/ie.png"); /* FF IE7 */
+            background-repeat: no-repeat;
+            background-size: cover;
+            -ms-background-size: cover;
+        }
+
+        body #ie_point .browser_type ul .second_li a span {
+            background-image: url("images/gg.png"); /* FF IE7 */
+            background-repeat: no-repeat;
+            background-size: cover;
+            -ms-background-size: cover;
+        }
+
+        body #ie_point .browser_type ul .last_li a span {
+            background-image: url("images/360.png"); /* FF IE7 */
+            background-repeat: no-repeat;
+            background-size: cover;
+            -ms-background-size: cover;
+        }
+
+        body #ie_point .browser_type ul li a p {
+            font-size: 18px;
+            color: #fff;
+            margin-top: 1.2%; /*13px*/
+        }
+
+        body #ie_point .browser_type ul li:last-child a p {
+            width: 160px;
+            margin: 1.2% auto 0;
+        }
+
+        body #ie_point .browser_type ul .last_li a p {
+            width: 160px;
+            margin: 1.2% auto 0;
+        }
+    </style>
+</head>
+<body>
+<!--TODO 主体-->
+<div id="ie_point">
+    <div class="big_img"></div>
+    <h3>为了保护你的账号安全，启焕站群系统已不支持IE8及以下版本浏览器访问，建议你升级到IE最新版本浏览器，或使用Chrome等其他浏览器。</h3>
+    <div class="browser_type">
+        <ul>
+            <li class="first_li">
+                <a href="https://support.microsoft.com/zh-cn/help/17621/internet-explorer-downloads" target="_blank">
+                    <span></span>
+                    <p>升级至最新版IE浏览器</p>
+                </a>
+            </li>
+            <li class="second_li">
+                <a href="http://www.google.cn/chrome/browser/" target="_blank">
+                    <span></span>
+                    <p>使用Google Chrome浏览器</p>
+                </a>
+            </li>
+            <li class="last_li">
+                <a href="http://chrome.360.cn/" target="_blank">
+                    <span></span>
+                    <p>使用360极速浏览器无VPN时推荐</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function $(id) {
+        return document.getElementById(id);
+    }
+    center();
+    window.onload = function () {
+        center();
+    };
+    if (window.addEventListener) {
+        window.addEventListener("resize", center, false);
+    } else {
+        window.attachEvent("onresize", center);
+    }
+    function center() {
+        //获取浏览器屏幕宽高
+        var width = document.body.offsetWidth || document.body.clientWidth;
+        var height = document.body.offsetHeight || document.body.clientHeight;
+        var $ie_point = $("ie_point");
+        var $height = $ie_point.clientHeight;
+
+        var top_center = (height - $height) / 2;
+        $ie_point.style.marginTop = "" + top_center + "px";
+    }
+</script>
+</html>

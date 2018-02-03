@@ -1,0 +1,14 @@
+[{
+        "department_name": "XX系",
+        "department_value": 0
+    },
+    {
+        "department_name": "XX系",
+        "department_value": 1,
+        "disabled": true
+    },
+    {
+        "department_name": "XX系",
+        "department_value": 2
+    }
+]

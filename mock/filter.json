@@ -1,0 +1,26 @@
+[{
+        "filter_name": "全部",
+        "filter_value": 0,
+        "filter_active": true 
+    },
+    {
+        "filter_name": "设计",
+        "filter_value": 1,
+        "filter_active": false
+    },
+    {
+        "filter_name": "装置",
+        "filter_value": 2,
+        "filter_active": false
+    },
+    {
+        "filter_name": "影像",
+        "filter_value": 3,
+        "filter_active": false
+    },
+    {
+        "filter_name": "动画",
+        "filter_value": 4,
+        "filter_active": false
+    }
+]
