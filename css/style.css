@@ -155,6 +155,7 @@ body {
   position: relative;
 }
 .header .logo {
+  min-width: 320px;
   position: absolute;
   top: 50%;
   left: 50px;
@@ -225,6 +226,10 @@ body {
   width: 100%;
   height: 120px;
   background: #fff;
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 .filter .filter-top {
@@ -292,6 +297,7 @@ body {
   width: 1480px;
   height: 100%;
   margin: 0 auto;
+  overflow: hidden;
 }
 .wrapper {
   width: 1480px;
@@ -426,12 +432,52 @@ body {
   color: #8b8b8b;
   line-height: 76px;
 }
+#upload .header {
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+#upload .upload-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#upload .upload-title > p {
+  font-size: 24px;
+  line-height: 97px;
+  color: #d74b4f;
+}
+#upload .wrapper {
+  width: 1200px;
+  padding: 40px;
+  margin-top: 50px;
+  background: #fff;
+}
 @media screen and (max-width: 1479px) {
   .filter .filter-container {
     width: 1200px;
   }
   .wrapper {
     width: 1200px;
+  }
+  .wrapper > ul > li {
+    width: 220.5px;
+    height: 237px;
+  }
+  .wrapper > ul > li .img-container {
+    height: 162px;
+  }
+  .wrapper > ul > li .info {
+    height: 73px;
+  }
+  .wrapper > ul > li .info .title {
+    height: 30px;
+    line-height: 30px;
+  }
+  .wrapper > ul > li .info .author span {
+    margin-top: 9px;
   }
   .footer .footer-container {
     width: 1200px;

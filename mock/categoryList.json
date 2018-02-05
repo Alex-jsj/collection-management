@@ -1,0 +1,11 @@
+[{
+        "category_name": "藏品类别1"
+    },
+    {
+        "category_name": "藏品类别2",
+        "disabled": true
+    },
+    {
+        "category_name": "藏品类别3"
+    }
+]

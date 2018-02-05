@@ -182,6 +182,7 @@ body {
     background: #fff;
     position: relative;
     .logo {
+        min-width: 320px;
         position: absolute;
         top: 50%;
         left: 50px;
@@ -255,6 +256,10 @@ body {
     width: 100%;
     height: 120px;
     background: #fff;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     .filter-top {
         width: 100%;
@@ -314,6 +319,7 @@ body {
         width: 1480px;
         height: 100%;
         margin: 0 auto;
+        overflow: hidden;
     }
 }
 
@@ -436,6 +442,32 @@ body {
     }
 }
 
+#upload {
+    .header {
+        -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .upload-title {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        >p {
+            font-size: 24px;
+            line-height: 97px;
+            color: @text-hover;
+        }
+    }
+    .wrapper{
+        width: 1200px;
+        padding: 40px;
+        margin-top: 50px;
+        background: #fff;
+    }
+}
+
 //分辨率 <1480 做适配
 @media screen and (max-width: 1479px) {
     .filter {
@@ -445,6 +477,27 @@ body {
     }
     .wrapper {
         width: 1200px;
+        >ul {
+            >li {
+                width: 220.5px;
+                height: 237px;
+                .img-container {
+                    height: 162px;
+                }
+                .info {
+                    height: 73px;
+                    .title {
+                        height: 30px;
+                        line-height: 30px;
+                    }
+                    .author {
+                        span {
+                            margin-top: 9px;
+                        }
+                    }
+                }
+            }
+        }
     }
     .footer {
         .footer-container {
