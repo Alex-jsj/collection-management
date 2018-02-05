@@ -181,16 +181,16 @@ body {
     height: 97px;
     background: #fff;
     position: relative;
+    .header-container {
+        width: 1480px;
+        margin: 0 auto;
+        &::after {
+            .clear;
+        }
+    }
     .logo {
         min-width: 320px;
-        position: absolute;
-        top: 50%;
-        left: 50px;
-        -webkit-transform: translateY(-50%);
-        -moz-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        -o-transform: translateY(-50%);
-        transform: translateY(-50%);
+        padding-top: 26px;
         .logo-img {
             width: 194px;
             height: 42px;
@@ -204,14 +204,8 @@ body {
     .search {
         width: 234px;
         height: 36px;
-        position: absolute;
-        top: 50%;
-        right: 50px;
-        -webkit-transform: translateY(-50%);
-        -moz-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        -o-transform: translateY(-50%);
-        transform: translateY(-50%);
+        position: relative;
+        top: 31px;
         .el-input {
             width: 100%;
             height: 100%;
@@ -495,6 +489,11 @@ body {
 
 //分辨率 <1480 做适配
 @media screen and (max-width: 1479px) {
+    .header {
+        .header-container {
+            width: 1200px;
+        }
+    }
     .filter {
         .filter-container {
             width: 1200px;

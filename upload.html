@@ -44,22 +44,24 @@
     <div id="upload" class="public-wap">
         <!-- Header -->
         <div class="header">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="./images/logo.png" alt="logo" class="logo-img float-left">
-                    <div class="logo-text float-left">
-                        <p>设计艺术学院</p>
-                        <p>藏品管理系统</p>
-                    </div>
-                </a>
-            </div>
-            <!-- 标题 -->
-            <div class="upload-title">
-                <p>藏品上传</p>
-            </div>
-            <div class="search">
-                <el-input placeholder="请输入关键字" v-model="search_value" class="" @keyup.enter.native="propSearch()"></el-input>
-                <i class="el-icon-search" @click="propSearch()"></i>
+            <div class="header-container">
+                <div class="logo float-left">
+                    <a href="index.html">
+                        <img src="./images/logo.png" alt="logo" class="logo-img float-left">
+                        <div class="logo-text float-left">
+                            <p>设计艺术学院</p>
+                            <p>藏品管理系统</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- 标题 -->
+                <div class="upload-title">
+                    <p>藏品上传</p>
+                </div>
+                <div class="search float-right">
+                    <el-input placeholder="请输入关键字" v-model="search_value" class="" @keyup.enter.native="propSearch()"></el-input>
+                    <i class="el-icon-search" @click="propSearch()"></i>
+                </div>
             </div>
         </div>
         <!-- 页面主体 -->
