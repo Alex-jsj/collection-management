@@ -454,6 +454,29 @@ body {
   padding: 40px;
   margin-top: 50px;
   background: #fff;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#upload .wrapper .line {
+  border-bottom: 1px dashed #d3d3d3;
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+#upload .wrapper .item-text {
+  color: #666;
+  font-size: 14px;
+  margin-top: 5px;
+}
+#upload .wrapper .form-control-btn button {
+  padding: 10px 40px;
+}
+#upload .wrapper .form-control-btn button:hover {
+  background: #e2797d;
+  border-color: #e2797d;
+  color: #fff;
 }
 @media screen and (max-width: 1479px) {
   .filter .filter-container {

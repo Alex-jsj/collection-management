@@ -98,23 +98,27 @@
                 <el-form-item label="藏品简介：">
                     <el-input v-model="form.introduction" type="textarea" :rows="10"></el-input>
                 </el-form-item>
+                <p class="line"></p>
                 <el-form-item label="藏品图片：">
-                    <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview"
-                        :on-remove="handleRemove" :before-upload="beforeAvatarUpload">
+                    <el-upload action="https://jsonplaceholder.typicode.com/posts/" multiple list-type="picture-card" :on-preview="handlePictureCardPreview"
+                        :on-remove="handleRemove" :before-upload="beforeAvatarUpload" :on-success="uploadSuccess" :on-error="uploadError">
                         <i class="el-icon-plus"></i>
                     </el-upload>
-                    <el-dialog :visible.sync="dialogVisible">
+                    <el-dialog :visible.sync="dialogVisible" class="upload-dialog">
                         <img width="100%" :src="dialogImageUrl" alt="">
                     </el-dialog>
+                    <p class="item-text">只能上传 jpg/png 文件，且不超过 500K</p>
                 </el-form-item>
+                <p class="line"></p>
                 <el-form-item label="上传人：" prop="uploadingPerson">
                     <el-input v-model="form.uploadingPerson" placeholder="输入上传人姓名"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话：" prop="tel">
                     <el-input v-model="form.tel" placeholder="输入手机/座机号码"></el-input>
                 </el-form-item>
+                <p class="line"></p>
                 <el-form-item class="form-control-btn">
-                    <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
+                    <el-button type="primary" @click="submitForm('form')" size="mini" :loading="subLoading">提交</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -225,16 +229,21 @@
             propSearch: function () {
                 sessionStorage.setItem('search_keyword', this.search_value);
             },
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
-            },
+            //图片删除的钩子
+            handleRemove(file, fileList) {},
+            //点击已上传的文件链接时的钩子
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
-            //图片上传
-            handleAvatarSuccess(res, file) {
-                this.form.uploadImg = URL.createObjectURL(file.raw);
+            //图片上传成功的钩子
+            uploadSuccess(response, file, fileList) {
+                //this.form.uploadImg.push(URL.createObjectURL(file.raw));
+                this.form.uploadImg = fileList;
+            },
+            //图片上传失败的钩子
+            uploadError(err, file, fileList) {
+                this.$message.error(file.name + "上传失败!");
             },
             //上传限制
             beforeAvatarUpload(file) {
@@ -254,12 +263,9 @@
                 that.$refs[formName].validate(function (valid) {
                     that.subLoading = true;
                     if (valid) {
-                        that.$message({
-                            type: "success",
-                            message: "提交成功!"
-                        });
+                        that.sendAjax();
                     } else {
-                        that.$message.error("提交失败!");
+                        that.subLoading = false;
                         return false;
                     }
                 });
@@ -271,11 +277,17 @@
                     method: "get", //需要把get改成post
                     url: './mock/collection.json',
                     data: {
-                        filter: that.filters.filterValue, //当前筛选项
-                        department: that.filters.departmentValue, //所属系别
-                        date: that.filters.dateListValue, //创作时间
-                        currentPage: that.filters.currentPage, //当前页码
-                        pageSize: that.filters.pageSize, //一页显示几条
+                        title: that.form.title, //藏品名称
+                        type: that.form.type, //藏品类型
+                        author: that.form.author, //作者
+                        videoUrl: that.form.videoUrl, //视频连接
+                        creatDate: that.form.creatDate, //创建时间
+                        department: that.form.department, //所属院系
+                        category: that.form.category, //藏品类别
+                        introduction: that.form.introduction, //藏品简介
+                        uploadingPerson: that.form.uploadingPerson, //上传人
+                        tel: that.form.tel, //联系电话
+                        uploadImg: that.form.uploadImg //图片上传
                     },
                     //格式化
                     transformRequest: [
@@ -296,8 +308,13 @@
                         "Content-Type": "application/x-www-form-urlencoded"
                     }
                 }).then(function (res) {
+                    that.$message({
+                        type: "success",
+                        message: "提交成功!"
+                    });
                     that.subLoading = false;
                 }).catch(function (error) {
+                    that.$message.error("提交失败!");
                     that.subLoading = false;
                     console.log(error);
                 });
