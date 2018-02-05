@@ -235,10 +235,18 @@ body {
 .banner .el-carousel__container {
   height: 100%;
 }
+.banner .el-carousel {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
 .filter {
   width: 100%;
   height: 120px;
   background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 .filter .filter-top {
   width: 100%;
@@ -312,7 +320,130 @@ body {
 }
 .wrapper {
   width: 1480px;
-  margin: 0 auto;
+  margin: 70px auto;
+  position: relative;
+}
+.wrapper > ul {
+  width: 100%;
+}
+.wrapper > ul::after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+.wrapper > ul > li {
+  width: 276.5px;
+  height: 298px;
+  overflow: hidden;
+  margin-right: 24px;
+  margin-bottom: 24px;
+  border: 1px solid transparent;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.wrapper > ul > li:hover {
+  border: 1px solid #d3d3d3;
+}
+.wrapper > ul > li:hover .info {
+  background: #fff;
+}
+.wrapper > ul > li:hover .info .author .float-right {
+  opacity: 1;
+}
+.wrapper > ul > li:nth-child(5n) {
+  margin-right: 0;
+}
+.wrapper > ul > li .img-container {
+  width: 100%;
+  height: 203px;
+  overflow: hidden;
+  position: relative;
+}
+.wrapper > ul > li .img-container .imgs {
+  display: block;
+  min-width: 100%;
+  min-height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+.wrapper > ul > li .img-container .img-width {
+  width: 100%;
+}
+.wrapper > ul > li .img-container .img-height {
+  height: 100%;
+}
+.wrapper > ul > li .info {
+  width: 100%;
+  height: 95px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.wrapper > ul > li .info .title {
+  padding: 0 8px;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  color: #666;
+  border-bottom: 1px solid #d3d3d3;
+  font-size: 14px;
+}
+.wrapper > ul > li .info .author {
+  padding: 0 8px;
+}
+.wrapper > ul > li .info .author::after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+.wrapper > ul > li .info .author span {
+  font-size: 14px;
+  color: #666;
+  display: block;
+  line-height: 25px;
+  margin-top: 14px;
+}
+.wrapper > ul > li .info .author .float-right {
+  opacity: 0;
+  width: 93px;
+  height: 25px;
+  background: #d74b4f;
+  text-align: center;
+  color: #fff;
+  border-radius: 3px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.wrapper .paging {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.wrapper .paging .el-dialog,
+.wrapper .paging .el-pager li {
+  background: transparent;
+}
+.wrapper .paging button {
+  background-color: transparent !important;
 }
 .footer {
   width: 100%;
