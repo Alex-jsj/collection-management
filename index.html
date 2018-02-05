@@ -5,6 +5,7 @@
     <title>藏品管理系统-中国美术学院</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
     <meta name="applicable-device" content="pc,mobile">
     <link rel="shortcut icon" href="images/favicon.ico" />
@@ -22,7 +23,7 @@
             }
             return false;
         }
-        //console.log(IETester());//不传参数返回当前IE版本，如果不是IE内核浏览器，返回false
+        //不传参数返回当前IE版本，如果不是IE内核浏览器，返回false
         if (IETester() == 9.0) {
             //window.location.href = 'iepoint/index.html';
         } else if (IETester() == 8.0 || IETester() == 7.0 || IETester() == 6.0 || IETester() == 5.0) {
@@ -41,10 +42,6 @@
 
 <body>
     <div id="index" class="public-wap">
-        <!-- 页面未加载完时的loading -->
-        <div class="loading" :class="{'loading-close':loading}">
-            <i class="el-icon-loading"></i>
-        </div>
         <!-- Header -->
         <div class="header">
             <div class="logo">
@@ -74,19 +71,19 @@
             <div class="filter-top">
                 <div class="filter-container">
                     <ul>
-                        <li v-for="item in filterList" :key="item.id" @click="filter_data(item.filter_value)" class="float-left" :class="{'li-active':item.filter_active}">{{item.filter_name}}</li>
+                        <li v-for="(item,index) in filterList" :key="item.id" @click="filter_data(item.filter_name,index)" class="float-left" :class="{'li-active':item.filter_active}">{{item.filter_name}}</li>
                     </ul>
                 </div>
             </div>
             <div class="filter-bottom">
                 <div class="filter-container">
                     <div class="filter-center">
-                        <el-select v-model="filters.departmentValue" placeholder="所属系别" clearable>
-                            <el-option v-for="item in departmentList" :key="item.id" :label="item.department_name" :value="item.department_value" :disabled="item.disabled">
+                        <el-select v-model="filters.departmentValue" placeholder="所属系别" clearable @change="selectChange()">
+                            <el-option v-for="item in departmentList" :key="item.id" :label="item.department_name" :value="item.department_name" :disabled="item.disabled">
                             </el-option>
                         </el-select>
-                        <el-select v-model="filters.dateListValue" placeholder="创作时间" clearable>
-                            <el-option v-for="item in dateList" :key="item.id" :label="item.date_name" :value="item.date_value" :disabled="item.disabled">
+                        <el-select v-model="filters.dateListValue" placeholder="创作时间" clearable @change="selectChange()">
+                            <el-option v-for="item in dateList" :key="item.id" :label="item.date_name" :value="item.date_name" :disabled="item.disabled">
                             </el-option>
                         </el-select>
                     </div>
@@ -112,8 +109,8 @@
                 </li>
             </ul>
             <!-- 分页 -->
-            <el-pagination class="paging" @current-change="handleCurrentChange" :current-page.sync="filters.currentPage" :page-size="15"
-                layout="prev, pager, next, jumper" :total="100">
+            <el-pagination class="paging" @current-change="handleCurrentChange" :current-page.sync="filters.currentPage" :page-size="currentTotal.pageSize"
+                layout="prev, pager, next, jumper" :total="currentTotal.total">
             </el-pagination>
         </div>
         <!-- Footer -->
@@ -133,7 +130,6 @@
     var app = new Vue({
         el: '#index',
         data: {
-            loading: false, //页面加载完取消loading
             this_year: new Date().getFullYear(), //当前年份
             slideList: [], //轮播列表
             slide_height: 0, //轮播高度
@@ -143,11 +139,14 @@
             departmentList: [], //所属系别
             dateList: [], //创作时间
             collectionList: [], //藏品列表
+            currentTotal: 0, //分页
+            /* ajax数据 */
             filters: {
                 currentPage: 1, //分页
+                pageSize: 15, //显示条数
                 departmentValue: '', //所属系别
-                dateListValue: [], //创作时间
-                filterValue: [], //创作时间
+                dateListValue: '', //创作时间
+                filterValue: '', //筛选类别
             }
         },
         mounted: function () {
@@ -177,16 +176,23 @@
             function getDateList() {
                 return axios.get('./mock/dateList.json');
             }
+            //获取分页数据
+            function getCurrentPage() {
+                return axios.get('./mock/currentPage.json');
+            }
             //ajax并发
-            axios.all([getSlide(), getCollectionList(), getFilterList(), getDepartmentList(), getDateList()])
-                .then(axios.spread(function (slide, collection, filterList, departmentList, dateList) {
+            axios.all([getSlide(), getCollectionList(), getFilterList(), getDepartmentList(), getDateList(),
+                    getCurrentPage()
+                ])
+                .then(axios.spread(function (slide, collection, filterList, departmentList, dateList,
+                    currentPage) {
                     // 请求现在都执行完成
-                    that.slideList = slide.data; //设置轮播数据
+                    that.slideList = slide.data; //设置轮播
                     that.slide_height = (that.screen_width / 1920 * 500) + 'px'; //设置轮播元素高度
-                    that.loading = true; //加载完成
-                    that.filterList = filterList.data; //设置筛选数据
-                    that.departmentList = departmentList.data; //设置所属系别数据
-                    that.dateList = dateList.data; //设置创作时间数据
+                    that.filterList = filterList.data; //设置筛选
+                    that.departmentList = departmentList.data; //设置所属系别
+                    that.dateList = dateList.data; //设置创作时间
+                    that.currentTotal = currentPage.data; //设置分页
                     // 藏品列表数据
                     that.collectionList = collection.data;
                     window.onload = function () {
@@ -199,13 +205,57 @@
             propSearch: function () {
                 sessionStorage.setItem('search_keyword', this.search_value);
             },
-            filter_data(val) {
+            filter_data(val, idx) {
+                var that = this;
+                /* 控制筛选项的active */
+                for (var k = 0; k < that.filterList.length; k++) {
+                    that.filterList[k].filter_active = false;
+                }
+                that.filterList[idx].filter_active = true;
+                /* 设置筛选项value */
+                that.filters.filterValue = val;
+                //重置分页为第一页
+                this.filters.currentPage = 1;
+                //ajax
+                this.sendAjax();
+            },
+            //图片高宽不确定的情况下等比例缩放
+            img_set: function (imgs) {
+                var that = this;
+                for (var i = 0; i < imgs.length; i++) {
+                    var image = new Image();
+                    image.src = imgs[i].imgUrl;
+                    if (image.width > image.height) {
+                        that.collectionList[i].proportion = true;
+                    } else {
+                        that.collectionList[i].proportion = false;
+                    }
+                }
+            },
+            //分页
+            handleCurrentChange(val) {
+                //ajax
+                this.sendAjax();
+            },
+            //select
+            selectChange: function () {
+                //重置分页为第一页
+                this.filters.currentPage = 1;
+                //ajax
+                this.sendAjax();
+            },
+            //ajax
+            sendAjax: function () {
                 var that = this;
                 axios({
                     method: "get", //需要把get改成post
                     url: './mock/collection.json',
                     data: {
-                        filter_value: val,
+                        filter: that.filters.filterValue, //当前筛选项
+                        department: that.filters.departmentValue, //所属系别
+                        date: that.filters.dateListValue, //创作时间
+                        currentPage: that.filters.currentPage, //当前页码
+                        pageSize: that.filters.pageSize, //一页显示几条
                     },
                     //格式化
                     transformRequest: [
@@ -226,26 +276,10 @@
                         "Content-Type": "application/x-www-form-urlencoded"
                     }
                 }).then(function (res) {
-                    console.log(res.data);
+                    that.collectionList = res.data;
                 }).catch(function (error) {
                     console.log(error);
                 });
-            },
-            //图片高宽不确定的情况下等比例缩放
-            img_set: function (imgs) {
-                var that = this;
-                for (var i = 0; i < imgs.length; i++) {
-                    var image = new Image();
-                    image.src = imgs[i].imgUrl;
-                    if (image.width > image.height) {
-                        that.collectionList[i].proportion = true;
-                    } else {
-                        that.collectionList[i].proportion = false;
-                    }
-                }
-            },
-            handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
             }
         },
     })

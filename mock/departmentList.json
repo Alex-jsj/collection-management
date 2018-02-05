@@ -1,14 +1,11 @@
 [{
-        "department_name": "XX系",
-        "department_value": 0
+        "department_name": "设计1系"
     },
     {
-        "department_name": "XX系",
-        "department_value": 1,
+        "department_name": "设计2系",
         "disabled": true
     },
     {
-        "department_name": "XX系",
-        "department_value": 2
+        "department_name": "设计3系"
     }
 ]

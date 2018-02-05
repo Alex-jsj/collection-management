@@ -110,29 +110,6 @@ a {
   background: #888;
 }
 /* base css end */
-.loading {
-  width: 100%;
-  height: 100vh;
-  background: rgba(255, 255, 255, 0.85);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-}
-.loading .el-icon-loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  color: #666;
-  font-size: 50px;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-}
-.loading-close {
-  display: none;
-}
 .transi {
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
@@ -162,7 +139,9 @@ a {
   display: none;
 }
 body {
+  width: 100%;
   background: #e6e6e6;
+  position: relative;
 }
 .public-wap {
   width: 100%;
@@ -294,13 +273,9 @@ body {
   position: relative;
 }
 .filter .filter-bottom .filter-center {
-  position: absolute;
-  top: 50%;
-  left: 50.1%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
+  width: 425px;
+  margin: 0 auto;
+  margin-top: 16px;
 }
 .filter .filter-bottom .filter-center .el-select {
   width: 200px;
@@ -364,16 +339,8 @@ body {
   position: relative;
 }
 .wrapper > ul > li .img-container .imgs {
-  display: block;
   min-width: 100%;
   min-height: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
 }
 .wrapper > ul > li .img-container .img-width {
   width: 100%;

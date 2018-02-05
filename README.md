@@ -3,8 +3,10 @@
 
 ## filter.json
 >filter_name => 筛选项的名字
->filter_value => 判断是哪一项的标记
 >filter_active => 当前激活的筛选项
+## currentPage.json
+>total => 分页总条数  
+>pageSize => 一页显示几条数据
 
 ## collection.json
 >imgUrl => 图片地址

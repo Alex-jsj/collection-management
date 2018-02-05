@@ -1,14 +1,11 @@
 [{
-        "date_name": "2018-01-01",
-        "date_value": 0
+        "date_name": "2018-01-01"
     },
     {
         "date_name": "2018-01-02",
-        "date_value": 1,
         "disabled": true
     },
     {
-        "date_name": "2018-01-03",
-        "date_value": 2
+        "date_name": "2018-01-03"
     }
 ]

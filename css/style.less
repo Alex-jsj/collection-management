@@ -130,29 +130,6 @@ a {
 @text-hover: #d74b4f;
 @base-grey: #8b8b8b;
 @border-color: #d3d3d3;
-//页面loading
-.loading {
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.85);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 99999;
-    .el-icon-loading {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        color: @text-color;
-        font-size: 50px;
-        .abso;
-    }
-}
-
-.loading-close {
-    display: none;
-}
-
 .transi {
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -188,7 +165,9 @@ a {
 }
 
 body {
+    width: 100%;
     background: #e6e6e6;
+    position: relative;
 }
 
 .public-wap {
@@ -315,10 +294,9 @@ body {
         height: 60px;
         position: relative;
         .filter-center {
-            position: absolute;
-            top: 50%;
-            left: 50.1%;
-            .abso;
+            width: 425px;
+            margin: 0 auto;
+            margin-top: 16px;
             .el-select {
                 width: 200px;
                 height: 28px;
@@ -376,13 +354,8 @@ body {
                 overflow: hidden;
                 position: relative;
                 .imgs {
-                    display: block;
                     min-width: 100%;
                     min-height: 100%;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    .abso;
                 }
                 .img-width {
                     width: 100%;
