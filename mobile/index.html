@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="zh-CN">
+    <title>藏品管理系统-中国美术学院</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="applicable-device" content="pc,mobile">
+    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link rel="stylesheet" href="./iconfont/iconfont.css">
+    <link rel="stylesheet" href="./css/style.css" type="text/css">
+    <script>
+        // 动态设置font-size
+        var cw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        document.getElementsByTagName("html")[0].style.fontSize = 20 * (cw / 375) + 'px';
+    </script>
+</head>
+
+<body>
+    <div id="index">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-shadow"></div>
+            <div class="header-container">
+                <div class="logo float-left">
+                    <a href="index.html">
+                        <img src="./images/logo.png" alt="logo" class="logo-img float-left">
+                        <div class="logo-text float-left">
+                            <p>设计艺术学院藏品管理系统</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="header-menu float-right" @click="menu_control()">
+                    <i class="iconfont icon-menu" :style="menuControl?'display:block':'display:none'"></i>
+                    <i class="iconfont icon-mobileclose" :style="!menuControl?'display:block':'display:none'"></i>
+                </div>
+            </div>
+            <!-- Header Menu -->
+            <div class="menu-container">
+                <!-- 搜索 -->
+                <div class="search">
+                    <input placeholder="请输入关键字" v-model="search_value"></input>
+                    <i class="iconfont icon-search"></i>
+                </div>
+                <!-- 筛选 -->
+                <div class="filter">
+                    <div class="filter-top">
+                        <div class="filter-container">
+                            <ul>
+                                <li v-for="(item,index) in filterList" :key="item.id" @click="filter_data(item.filter_name,index)" class="float-left" :class="{'li-active':item.filter_active}">{{item.filter_name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 页面主体 -->
+        <div class="wrapper">
+            <ul>
+                <li v-for="item in collectionList" :key="item.id" class="float-left">
+                    <a :href="item.url">
+                        <div class="img-container">
+                            <img :src="item.imgUrl" alt="img" class="imgs" :class="item.proportion?'img-height':'img-width'">
+                        </div>
+                        <div class="info">
+                            <p class="title">{{item.title}}</p>
+                            <div class="author">
+                                <span class="float-left">{{item.author}}</span>
+                                <span class="float-right">{{item.department}}</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#index',
+        data: {
+            //菜单控制
+            menuControl: true,
+            screen_width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, //页面可视区域宽度
+            search_value: '',
+            filterList: [], //筛选
+            departmentList: [], //所属系别
+            dateList: [], //创作时间
+            collectionList: [], //藏品列表
+            currentTotal: 0, //分页
+            /* ajax数据 */
+            filters: {
+                currentPage: 1, //分页
+                pageSize: 15, //显示条数
+                departmentValue: '', //所属系别
+                dateListValue: '', //创作时间
+                filterValue: '', //筛选类别
+            }
+        },
+        mounted: function () {
+            var that = this;
+            window.onresize = function () {
+                // pc页面跳转
+                var cw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                if (cw > 768) {
+                    window.location.href = '../index.html';
+                }
+            }
+            //获取展示数据
+            function getCollectionList() {
+                return axios.get('./mock/collection.json');
+            }
+            //获取筛选数据
+            function getFilterList() {
+                return axios.get('./mock/filter.json');
+            }
+            //获取所属系别
+            function getDepartmentList() {
+                return axios.get('./mock/departmentList.json');
+            }
+            //获取创作时间
+            function getDateList() {
+                return axios.get('./mock/dateList.json');
+            }
+            //ajax并发
+            axios.all([getCollectionList(), getFilterList(), getDepartmentList(), getDateList()])
+                .then(axios.spread(function (collection, filterList, departmentList, dateList) {
+                    // 请求现在都执行完成
+                    that.filterList = filterList.data; //设置筛选
+                    that.departmentList = departmentList.data; //设置所属系别
+                    that.dateList = dateList.data; //设置创作时间
+                    // 藏品列表数据
+                    that.collectionList = collection.data;
+                    window.onload = function () {
+                        //判断图片高宽比 以等比例缩放
+                        that.img_set(that.collectionList);
+                    }
+                }));
+        },
+        methods: {
+            //菜单控制
+            menu_control: function () {
+                this.menuControl = !this.menuControl;
+            },
+            propSearch: function () {
+                sessionStorage.setItem('search_keyword', this.search_value);
+                window.location.href = './search.html';
+            },
+            filter_data(val, idx) {
+                var that = this;
+                /* 控制筛选项的active */
+                for (var k = 0; k < that.filterList.length; k++) {
+                    that.filterList[k].filter_active = false;
+                }
+                that.filterList[idx].filter_active = true;
+                /* 设置筛选项value */
+                that.filters.filterValue = val;
+                //重置分页为第一页
+                this.filters.currentPage = 1;
+                //ajax
+                this.sendAjax();
+            },
+            //图片高宽不确定的情况下等比例缩放
+            img_set: function (imgs) {
+                var that = this;
+                for (var i = 0; i < imgs.length; i++) {
+                    var image = new Image();
+                    image.src = imgs[i].imgUrl;
+                    if (image.width > image.height) {
+                        that.collectionList[i].proportion = true;
+                    } else {
+                        that.collectionList[i].proportion = false;
+                    }
+                }
+            },
+            //select
+            selectChange: function () {
+                //重置分页为第一页
+                this.filters.currentPage = 1;
+                //ajax
+                this.sendAjax();
+            },
+            //ajax
+            sendAjax: function () {
+                var that = this;
+                axios({
+                    method: "get", //需要把get改成post
+                    url: './mock/collection.json',
+                    data: {
+                        filter: that.filters.filterValue, //当前筛选项
+                        department: that.filters.departmentValue, //所属系别
+                        date: that.filters.dateListValue, //创作时间
+                        currentPage: that.filters.currentPage, //当前页码
+                        pageSize: that.filters.pageSize, //一页显示几条
+                    },
+                    //格式化
+                    transformRequest: [
+                        function (data) {
+                            var ret = "";
+                            for (var i = 0; i < data.length; i++) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            ret = ret.slice(0, -1); // 去掉最后的空行
+                            return ret;
+                        }
+                    ],
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                }).then(function (res) {
+                    that.collectionList = res.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        },
+    })
+</script>
+
+</html>

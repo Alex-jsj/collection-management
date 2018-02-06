@@ -29,14 +29,6 @@
         } else if (IETester() == 8.0 || IETester() == 7.0 || IETester() == 6.0 || IETester() == 5.0) {
             window.location.href = 'iepoint/index.html';
         }
-
-        // 动态设置font-size
-        (function () {
-            var cw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-            if (cw < 769) {
-                document.getElementsByTagName("html")[0].style.fontSize = 20 * (cw / 375) + 'px';
-            }
-        })();
     </script>
 </head>
 
@@ -53,6 +45,10 @@
                             <p>藏品管理系统</p>
                         </div>
                     </a>
+                </div>
+                <div class="upload float-right">
+                    <i class="iconfont icon-shangchuan float-left"></i>
+                    <a href="upload.html" class="float-right">藏品上传</a>
                 </div>
                 <div class="search float-right">
                     <el-input placeholder="请输入关键字" v-model="search_value" class="" @keyup.enter.native="propSearch()"></el-input>
@@ -127,7 +123,7 @@
         </div>
     </div>
 </body>
-<script src="js/vue.js"></script>
+<script src="js/vue.min.js"></script>
 <script src="js/axios.min.js"></script>
 <script src="js/element.min.js"></script>
 <script>
@@ -156,6 +152,12 @@
         mounted: function () {
             var that = this;
             window.onresize = function () {
+                // 手机端页面跳转
+                var cw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                if (cw < 769) {
+                    window.location.href = './mobile/index.html';
+                }
+                //轮播宽高设置
                 that.screen_width = window.innerWidth || document.documentElement.clientWidth ||
                     document.body.clientWidth;
                 that.slide_height = (that.screen_width / 1920 * 500) + 'px'; //设置轮播元素高度
@@ -208,6 +210,7 @@
         methods: {
             propSearch: function () {
                 sessionStorage.setItem('search_keyword', this.search_value);
+                window.location.href = './search.html';
             },
             filter_data(val, idx) {
                 var that = this;

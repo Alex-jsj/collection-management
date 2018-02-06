@@ -184,6 +184,7 @@ body {
     .header-container {
         width: 1480px;
         margin: 0 auto;
+        .transi;
         &::after {
             .clear;
         }
@@ -228,6 +229,36 @@ body {
             cursor: pointer;
         }
     }
+    .upload {
+        width: 100px;
+        height: 36px;
+        position: relative;
+        top: 31px;
+        border: 1px solid @border-color;
+        border-radius: 4px;
+        padding: 0 10px;
+        margin-left: 10px;
+        .transi;
+        &:hover {
+            border: 1px solid @text-hover;
+            a,
+            .icon-shangchuan {
+                color: @text-hover;
+            }
+        }
+        a {
+            font-size: 14px;
+            line-height: 36px;
+            color: #bbb;
+            .transi;
+        }
+        .icon-shangchuan {
+            line-height: 36px;
+            color: #bbb;
+            font-size: 16px;
+            .transi;
+        }
+    }
 }
 
 .banner {
@@ -248,7 +279,7 @@ body {
 
 .filter {
     width: 100%;
-    height: 120px;
+    min-height: 120px;
     background: #fff;
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -257,22 +288,18 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     .filter-top {
         width: 100%;
-        height: 60px;
+        min-height: 60px;
         border-bottom: 1px solid @border-color;
+        text-align: center;
+        padding-bottom: 18px;
         ul {
-            position: absolute;
-            left: 50%;
-            -webkit-transform: translateX(-50%);
-            -moz-transform: translateX(-50%);
-            -ms-transform: translateX(-50%);
-            -o-transform: translateX(-50%);
-            transform: translateX(-50%);
+            display: inline-block;
             &::after {
                 .clear;
             }
             li {
                 margin-right: 43px;
-                line-height: 60px;
+                margin-top: 18px;
                 cursor: pointer;
                 color: @text-color;
                 .transi;
@@ -428,6 +455,7 @@ body {
     .footer-container {
         width: 1480px;
         margin: 0 auto;
+        .transi;
         .footer-info {
             font-size: 14px;
             color: @base-grey;
@@ -443,6 +471,9 @@ body {
         -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        .header-container {
+            width: 1200px;
+        }
     }
     .upload-title {
         position: absolute;
@@ -464,6 +495,9 @@ body {
         -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        .el-select {
+            width: 220px;
+        }
         .line {
             border-bottom: 1px dashed @border-color;
             margin-bottom: 40px;
@@ -484,6 +518,219 @@ body {
                 }
             }
         }
+    }
+}
+
+#info {
+    .header {
+        -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .wrapper {
+        &::after {
+            .clear;
+        }
+    }
+    .details {
+        width: 1200px;
+        .transi;
+        background: #fff;
+        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        .detail-header {
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid @border-color;
+            .title {
+                font-size: 22px;
+                letter-spacing: 2px;
+                margin-bottom: 14px;
+            }
+            .collection-info {
+                font-size: 14px;
+                color: @text-color;
+                .state {
+                    padding: 3px 10px;
+                    background: @text-hover;
+                    color: #fff;
+                    border-radius: 3px;
+                    margin-left: 5px;
+                }
+            }
+        }
+        .detail-body {
+            width: 100%;
+            text-align: center;
+            padding-bottom: 40px;
+            border-bottom: 1px solid @border-color;
+            .detail-img {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            .body-title {
+                .transi;
+                width: 850px;
+                margin: 0 auto;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid @border-color;
+                font-size: 20px;
+            }
+            .collection-introduce {
+                .transi;
+                width: 850px;
+                margin: 0 auto;
+                text-align: left;
+                font-size: 14px;
+                color: @text-color;
+                margin-top: 20px;
+                line-height: 24px;
+                span,
+                p,
+                div,
+                li,
+                dt,
+                dd,
+                i,
+                b {
+                    font-size: 14px;
+                    color: @text-color;
+                    line-height: 24px;
+                }
+            }
+        }
+        .detail-link {
+            width: 100%;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            text-align: center;
+            .link-download {
+                display: inline-block;
+                padding: 8px 28px;
+                font-size: 14px;
+                color: #fff;
+                background: @text-hover;
+                border-radius: 3px;
+            }
+        }
+        .pages {
+            width: 100%;
+            border-top: 1px solid @border-color;
+            &::after {
+                .clear;
+            }
+            a {
+                &:hover {
+                    span {
+                        color: @text-hover;
+                    }
+                }
+                span {
+                    .transi;
+                    font-size: 14px;
+                    color: @text-color;
+                    line-height: 56px;
+                }
+            }
+        }
+    }
+    .other {
+        width: 260px;
+        background: #fff;
+        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        .switch {
+            width: 100%;
+            height: 58px;
+            border-bottom: 1px solid @border-color;
+            position: relative;
+            span {
+                width: 50%;
+                text-align: center;
+                padding: 16px 0;
+                font-size: 16px;
+                cursor: pointer;
+                background: #fff;
+                border-top: 3px solid transparent;
+                .transi;
+            }
+            .line {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 1px;
+                background: @border-color;
+                height: 58px;
+            }
+            .span-active {
+                height: 58px;
+                border-top: 3px solid @text-hover;
+            }
+        }
+        .other-container {
+            width: 100%;
+            padding: 0 10px;
+            .hot-container {
+                &::after {
+                    .clear;
+                }
+                ul {
+                    margin-top: 30px;
+                    &::after {
+                        .clear;
+                    }
+                    li {
+                        width: 115px;
+                        margin-bottom: 10px;
+                        overflow: hidden;
+                        a {
+                            img {
+                                display: block;
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+            .hot-refesh {
+                width: 100%;
+                text-align: center;
+                margin: 20px 0 30px;
+                span {
+                    display: inline-block;
+                    padding: 8px 10px;
+                    background: #808080;
+                    border-radius: 3px;
+                    color: #fff;
+                    cursor: pointer;
+                    .transi;
+                    &:hover {
+                        background: @text-hover;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#search {
+    .header {
+        -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 }
 
@@ -523,12 +770,30 @@ body {
             }
         }
     }
+    #info {
+        .details {
+            width: 920px;
+            .detail-body {
+                width: 100%;
+                text-align: center;
+                padding-bottom: 40px;
+                border-bottom: 1px solid @border-color;
+                .detail-img {
+                    max-width: 100%;
+                    margin-bottom: 20px;
+                }
+                .body-title {
+                    width: 780px;
+                }
+                .collection-introduce {
+                    width: 780px;
+                }
+            }
+        }
+    }
     .footer {
         .footer-container {
             width: 1200px;
         }
     }
 }
-
-//分辨率 <769 做适配
-@media screen and (max-width: 769px) {}
