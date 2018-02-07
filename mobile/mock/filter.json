@@ -1,14 +1,22 @@
 [{
-        "filter_name": "热门藏品",
-        "filter_active": false
-    },
-    {
-        "filter_name": "最新藏品",
-        "filter_active": false
-    },
-    {
         "filter_name": "全部",
         "filter_active": true
+    },
+    {
+        "filter_name": "设计",
+        "filter_active": false
+    },
+    {
+        "filter_name": "装置",
+        "filter_active": false
+    },
+    {
+        "filter_name": "影像",
+        "filter_active": false
+    },
+    {
+        "filter_name": "动画",
+        "filter_active": false
     },
     {
         "filter_name": "设计",

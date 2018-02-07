@@ -2,7 +2,7 @@
  * @Author: Alex chenzeyongjsj@163.com 
  * @Date: 2018-02-03 13:54:59 
  * @Last Modified by: Alex chenzeyongjsj@163.com
- * @Last Modified time: 2018-02-03 18:00:07
+ * @Last Modified time: 2018-02-07 14:37:46
  */
 /* base css start */
 html,
@@ -126,16 +126,12 @@ body {
   background: #f2f2f2;
   position: relative;
 }
-.public-wap {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
 .header {
   width: 100%;
   height: 2rem;
   background: #fff;
   position: relative;
+  /* 展开菜单 */
 }
 .header .header-shadow {
   position: absolute;
@@ -194,21 +190,34 @@ body {
 }
 .header .menu-container {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0 1rem;
   background: rgba(255, 255, 255, 0.9);
   position: absolute;
   top: 2rem;
   left: 0;
   z-index: 9;
+  overflow: hidden;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
 }
 .header .menu-container .search {
   width: 100%;
-  height: 1.5rem;
+  height: 0;
   position: relative;
+  overflow: hidden;
+  z-index: 98;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
 }
 .header .menu-container .search input {
   width: 100%;
-  height: 100%;
+  height: 1.5rem;
   border-radius: 0.2rem;
   border: 1px solid #7f7f7f;
   font-size: 0.6rem;
@@ -221,18 +230,147 @@ body {
   right: 0.2rem;
   font-size: 1rem;
   color: #808080;
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
 }
 .header .menu-container .filter {
   width: 100%;
+  height: 0;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0 dashed #7f7f7f;
+  overflow: hidden;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.header .menu-container .filter ul {
+  width: 17.5rem;
+}
+.header .menu-container .filter ul::after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+.header .menu-container .filter ul li {
+  padding: 0 0.7rem;
+  border: 1px solid #7f7f7f;
+  border-radius: 0.3rem;
+  font-size: 0.6rem;
+  background: #fff;
+  margin-right: 0.6rem;
+  margin-bottom: 0;
+  letter-spacing: 0.08rem;
+  color: #666;
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.header .menu-container .filter ul .li-active {
+  color: #d74b4f;
+  border: 1px solid #d74b4f;
+}
+.header .menu-active {
+  padding: 0.75rem 1rem;
+}
+.header .menu-active .search {
+  height: 1.6rem;
+}
+.header .menu-active .search .icon-search {
+  opacity: 1;
+}
+.header .menu-active .filter {
+  height: auto;
   margin-top: 0.75rem;
-  padding: 0.75rem 0;
+  padding-top: 0.75rem;
   border-top: 1px dashed #7f7f7f;
 }
+.header .menu-active .filter ul li {
+  padding: 0.4rem 0.7rem;
+  margin-bottom: 0.6rem;
+  opacity: 1;
+}
 .wrapper {
-  display: none;
-  width: 1480px;
-  margin: 70px auto;
+  width: 16.75rem;
+  margin: 0 auto;
   position: relative;
+}
+.wrapper .select-filter {
+  width: 100%;
+  margin: 1.2rem 0;
+}
+.wrapper .select-filter::after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+.wrapper .select-filter > span {
+  display: block;
+  margin-right: 1rem;
+}
+.wrapper .select-filter > span:last-of-type {
+  margin-right: 0;
+}
+.wrapper .select-filter > span a {
+  font-size: 0.7rem;
+  color: #666;
+}
+.wrapper .select-filter .fake-select {
+  width: 4.75rem;
+  height: 1.15rem;
+  position: absolute;
+  border: 1px solid #7f7f7f;
+  border-radius: 0.1rem;
+  right: 4.95rem;
+  background: #fff;
+  top: 0.1rem;
+}
+.wrapper .select-filter .fake-select .placeholder {
+  display: block;
+  color: #666;
+  line-height: 1.15rem;
+  font-size: 0.6rem;
+  margin-left: 0.3rem;
+}
+.wrapper .select-filter .fake-select .iconfont {
+  font-size: 0.7rem;
+  position: absolute;
+  top: 45.5%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 0.3rem;
+  color: #7f7f7f;
+}
+.wrapper .select-filter .fake-select .icon-close {
+  z-index: 8;
+  top: 48%;
+}
+.wrapper .select-filter .fake-2 {
+  right: 0;
+}
+.wrapper .select-filter .select-f {
+  width: 4.75rem;
+  height: 1.15rem;
+  font-size: 0.5rem;
+  color: #666;
+  margin-left: 0.2rem;
+  opacity: 0;
+  position: relative;
+  top: 0.1rem;
 }
 .wrapper > ul {
   width: 100%;
@@ -244,33 +382,18 @@ body {
   clear: both;
 }
 .wrapper > ul > li {
-  width: 276.5px;
-  height: 298px;
+  width: 8rem;
+  height: 9.1rem;
   overflow: hidden;
-  margin-right: 24px;
-  margin-bottom: 24px;
-  border: 1px solid transparent;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
 }
-.wrapper > ul > li:hover {
-  border: 1px solid #7f7f7f;
-}
-.wrapper > ul > li:hover .info {
-  background: #fff;
-}
-.wrapper > ul > li:hover .info .author .float-right {
-  opacity: 1;
-}
-.wrapper > ul > li:nth-child(5n) {
+.wrapper > ul > li:nth-child(2n) {
   margin-right: 0;
 }
 .wrapper > ul > li .img-container {
   width: 100%;
-  height: 203px;
+  height: 5.85rem;
   overflow: hidden;
   position: relative;
 }
@@ -286,21 +409,16 @@ body {
 }
 .wrapper > ul > li .info {
   width: 100%;
-  height: 95px;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
+  background: #fff;
 }
 .wrapper > ul > li .info .title {
-  padding: 0 8px;
+  padding: 0 0.35rem;
   width: 100%;
-  height: 40px;
-  line-height: 40px;
+  height: 1.55rem;
+  line-height: 1.55rem;
   color: #666;
-  border-bottom: 1px solid #7f7f7f;
-  font-size: 14px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 0.5rem;
 }
 .wrapper > ul > li .info .author {
   padding: 0 8px;
@@ -311,42 +429,19 @@ body {
   visibility: hidden;
   clear: both;
 }
-.wrapper > ul > li .info .author span {
-  font-size: 14px;
+.wrapper > ul > li .info .author .float-left {
+  font-size: 0.5rem;
   color: #666;
   display: block;
-  line-height: 25px;
-  margin-top: 14px;
+  line-height: 1.6rem;
 }
 .wrapper > ul > li .info .author .float-right {
-  opacity: 0;
-  width: 93px;
-  height: 25px;
+  padding: 0.1rem 0.3rem;
   background: #d74b4f;
-  text-align: center;
   color: #fff;
-  border-radius: 3px;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-}
-.wrapper .paging {
-  position: absolute;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
-.wrapper .paging .el-dialog,
-.wrapper .paging .el-pager li {
-  background: transparent;
-}
-.wrapper .paging button {
-  background-color: transparent !important;
+  font-size: 0.5rem;
+  border-radius: 0.1rem;
+  margin-top: 0.3rem;
 }
 #info .wrapper::after {
   content: "";

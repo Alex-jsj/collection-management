@@ -38,7 +38,7 @@
                 </div>
             </div>
             <!-- Header Menu -->
-            <div class="menu-container">
+            <div class="menu-container" :class="{'menu-active':!menuControl}">
                 <!-- 搜索 -->
                 <div class="search">
                     <input placeholder="请输入关键字" v-model="search_value"></input>
@@ -46,18 +46,43 @@
                 </div>
                 <!-- 筛选 -->
                 <div class="filter">
-                    <div class="filter-top">
-                        <div class="filter-container">
-                            <ul>
-                                <li v-for="(item,index) in filterList" :key="item.id" @click="filter_data(item.filter_name,index)" class="float-left" :class="{'li-active':item.filter_active}">{{item.filter_name}}</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <ul>
+                        <li v-for="(item,index) in filterList" :key="item.id" @click="filter_data(item.filter_name,index)" class="float-left" :class="{'li-active':item.filter_active}">{{item.filter_name}}</li>
+                    </ul>
                 </div>
             </div>
         </div>
         <!-- 页面主体 -->
         <div class="wrapper">
+            <!-- 筛选 2 -->
+            <div class="select-filter">
+                <span class="float-left">
+                    <a href="javascript:void(0);">热门藏品</a>
+                </span>
+                <span class="float-left">
+                    <a href="javascript:void(0);">最新藏品</a>
+                </span>
+                <!-- 模拟select -->
+                <div class="fake-select fake-1">
+                    <span class="placeholder float-left" v-show="!filters.departmentValue">所属系别</span>
+                    <span class="placeholder float-left" v-show="filters.departmentValue">{{filters.departmentValue}}</span>
+                    <i class="iconfont icon-down" v-show="!filters.departmentValue"></i>
+                    <i class="iconfont icon-close" v-show="filters.departmentValue" @click="fake_select_icon_1()"></i>
+                </div>
+                <div class="fake-select fake-2">
+                    <span class="placeholder float-left" v-show="!filters.dateListValue">创作时间</span>
+                    <span class="placeholder float-left" v-show="filters.dateListValue">{{filters.dateListValue}}</span>
+                    <i class="iconfont icon-down" v-show="!filters.dateListValue"></i>
+                    <i class="iconfont icon-close" v-show="filters.dateListValue" @click="fake_select_icon_2()"></i>
+                </div>
+                <select name="department" class="float-right select-f" v-model="filters.dateListValue">
+                    <option v-for="item in dateList" :value="item.date_name">{{item.date_name}}</option>
+                </select>
+                <select name="date" class="float-right select-f" v-model="filters.departmentValue">
+                    <option v-for="item in departmentList" :value="item.department_name">{{item.department_name}}</option>
+                </select>
+            </div>
+            <!-- collection list -->
             <ul>
                 <li v-for="item in collectionList" :key="item.id" class="float-left">
                     <a :href="item.url">
@@ -145,6 +170,13 @@
             //菜单控制
             menu_control: function () {
                 this.menuControl = !this.menuControl;
+            },
+            //模拟下拉菜单清除按钮
+            fake_select_icon_1: function () {
+                this.filters.departmentValue = "";
+            },
+            fake_select_icon_2: function () {
+                this.filters.dateListValue = "";
             },
             propSearch: function () {
                 sessionStorage.setItem('search_keyword', this.search_value);
