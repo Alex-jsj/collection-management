@@ -99,10 +99,14 @@
                     </a>
                 </li>
             </ul>
+            <!-- load more -->
+            <div class="load-more" @click="load_more()">
+                <span v-text="loadMore"></span>
+            </div>
         </div>
     </div>
 </body>
-<script src="js/vue.js"></script>
+<script src="js/vue.min.js"></script>
 <script src="js/axios.min.js"></script>
 <script>
     var app = new Vue({
@@ -117,10 +121,11 @@
             dateList: [], //创作时间
             collectionList: [], //藏品列表
             currentTotal: 0, //分页
+            loadMore: '加载更多',
             /* ajax数据 */
             filters: {
                 currentPage: 1, //分页
-                pageSize: 15, //显示条数
+                pageSize: 6, //显示条数
                 departmentValue: '', //所属系别
                 dateListValue: '', //创作时间
                 filterValue: '', //筛选类别
@@ -177,6 +182,46 @@
             },
             fake_select_icon_2: function () {
                 this.filters.dateListValue = "";
+            },
+            //加载更多
+            load_more: function () {
+                var that = this;
+                axios({
+                    method: "get", //需要把get改成post
+                    url: './mock/collection.json',
+                    data: {
+                        currentPage: that.filters.currentPage, //当前页码
+                        pageSize: that.filters.pageSize, //一页显示几条
+                    },
+                    //格式化
+                    transformRequest: [
+                        function (data) {
+                            var ret = "";
+                            for (var i = 0; i < data.length; i++) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            ret = ret.slice(0, -1); // 去掉最后的空行
+                            return ret;
+                        }
+                    ],
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                }).then(function (res) {
+                    if (res == 'succ') {
+                        for (var i = 0; i < res.data.length; i++) {
+                            that.collectionList.push(res.data[i]);
+                        }
+                    } else {
+                        that.loadMore = '没有更多了';
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
             },
             propSearch: function () {
                 sessionStorage.setItem('search_keyword', this.search_value);

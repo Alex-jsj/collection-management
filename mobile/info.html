@@ -20,119 +20,92 @@
 </head>
 
 <body>
-    <div id="info" class="public-wap">
+    <div id="info">
         <!-- Header -->
         <div class="header">
+            <div class="header-shadow"></div>
             <div class="header-container">
                 <div class="logo float-left">
                     <a href="index.html">
                         <img src="./images/logo.png" alt="logo" class="logo-img float-left">
                         <div class="logo-text float-left">
-                            <p>设计艺术学院</p>
-                            <p>藏品管理系统</p>
+                            <p>设计艺术学院藏品管理系统</p>
                         </div>
                     </a>
                 </div>
-                <div class="upload float-right">
-                    <i class="iconfont icon-shangchuan float-left"></i>
-                    <a href="upload.html" class="float-right">藏品上传</a>
+                <div class="header-menu float-right" @click="menu_control()">
+                    <i class="iconfont icon-menu" :style="menuControl?'display:block':'display:none'"></i>
+                    <i class="iconfont icon-mobileclose" :style="!menuControl?'display:block':'display:none'"></i>
                 </div>
-                <div class="search float-right">
-                    <el-input placeholder="请输入关键字" v-model="search_value" class="" @keyup.enter.native="propSearch()"></el-input>
-                    <i class="el-icon-search" @click="propSearch()"></i>
+            </div>
+            <!-- Header Menu -->
+            <div class="menu-container" :class="{'menu-active':!menuControl}">
+                <!-- 搜索 -->
+                <div class="search">
+                    <input placeholder="请输入关键字" v-model="search_value"></input>
+                    <i class="iconfont icon-search"></i>
                 </div>
             </div>
         </div>
         <!-- 页面主体 -->
         <div class="wrapper">
-            <div class="details float-left">
+            <!-- 藏品详情 -->
+            <div class="details">
                 <div class="detail-header">
-                    <div class="title">{{collection_detail.title}}</div>
-                    <div class="collection-info">
-                        <span>作者：{{collection_detail.author}} /</span>
-                        <span>创作时间：{{collection_detail.creationTime}} /</span>
-                        <span>所属院系：{{collection_detail.department}} /</span>
-                        <span>藏品类别：{{collection_detail.collectionType}} /</span>
-                        <span>藏品编号：{{collection_detail.collectionNumber}}</span>
-                        <span class="state">{{collection_detail.collectionState}}</span>
-                    </div>
+                    <div class="title float-left">{{collection_detail.title}}</div>
+                    <div class="state float-right">{{collection_detail.collectionState}}</div>
                 </div>
                 <div class="detail-body">
                     <img v-for="item in collection_detail.collectionList" :src="item.imgUrl" alt="img" class="detail-img">
-                    <p class="body-title">藏品简介</p>
+                </div>
+                <div class="detail-info">
+                    <ul>
+                        <li class="float-left">
+                            <span>作者：{{collection_detail.author}}</span>
+                        </li>
+                        <li class="float-right">
+                            <span>创作时间：{{collection_detail.creationTime}}</span>
+                        </li>
+                        <li class="float-left">
+                            <span>所属院系：{{collection_detail.department}}</span>
+                        </li>
+                        <li class="float-right">
+                            <span>藏品类别：{{collection_detail.collectionType}}</span>
+                        </li>
+                        <li class="float-left">
+                            <span>藏品编号：{{collection_detail.collectionNumber}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="detail-info">
+                    <div class="detail-title">
+                        <p>藏品简介</p>
+                    </div>
                     <div class="collection-introduce" v-html="collection_detail.collectionIntroduce"></div>
                 </div>
-                <div class="detail-link">
-                    <a :href="collection_detail.imgDownload" download class="link-download">图片下载</a>
-                </div>
-                <!-- 上一页下一页 -->
-                <div class="pages">
-                    <a href="info.html" class="float-left prev">
-                        <span class="iconfont icon-left"></span>
-                        <span>上一篇</span>
-                    </a>
-                    <a href="info.html" class="float-right next">
-                        <span>下一篇</span>
-                        <span class="iconfont icon-right"></span>
-                    </a>
-                </div>
             </div>
-            <div class="other float-right">
-                <div class="switch">
-                    <span class="hot-collection float-left" :class="{'span-active':other_click}" @click="otherSwitch()">热门藏品</span>
-                    <i class="line"></i>
-                    <span class="new-collection float-right" :class="{'span-active':!other_click}" @click="otherSwitch()">最新藏品</span>
+            <!-- 藏品外借form -->
+            <div id="borrow">
+                <div class="borrow-title">
+                    <p>藏品外借申请</p>
                 </div>
-                <div v-if="other_click" class="other-container">
-                    <!-- 伪瀑布流 -->
-                    <div class="hot-container">
-                        <ul class="float-left">
-                            <li v-for="item in hotCollection1" :key="item.id">
-                                <a :href="item.imgUrl">
-                                    <img :src="item.imgSrc" alt="img">
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="float-right">
-                            <li v-for="item in hotCollection2" :key="item.id">
-                                <a :href="item.imgUrl">
-                                    <img :src="item.imgSrc" alt="img">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- 点击更换热门藏品列表 -->
-                    <div class="hot-refesh">
-                        <span @click="hot_refesh()">换一批看看</span>
-                    </div>
-                </div>
-                <div v-else class="other-container">
-                    <!-- 伪瀑布流 -->
-                    <div class="hot-container">
-                        <ul class="float-left">
-                            <li v-for="item in newCollection1" :key="item.id">
-                                <a :href="item.imgUrl">
-                                    <img :src="item.imgSrc" alt="img">
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="float-right">
-                            <li v-for="item in newCollection2" :key="item.id">
-                                <a :href="item.imgUrl">
-                                    <img :src="item.imgSrc" alt="img">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-container">
-                <div class="footer-info float-left">
-                    <p>© CopyRight 2017-{{this_year}}, 中国美术学院设计艺术学院, Inc.All Rights Reserved.</p>
-                </div>
+                <el-form ref="form" :model="collection_borrow" :rules="rules" status-icon label-width="25%" size="mini" label-position="right">
+                    <el-form-item label="申请人：" prop="per">
+                        <el-input v-model="collection_borrow.per"></el-input>
+                    </el-form-item>
+                    <el-form-item label="联系方式：" prop="tel">
+                        <el-input v-model="collection_borrow.tel"></el-input>
+                    </el-form-item>
+                    <!-- <el-form-item label="藏品图片：">
+                        <el-upload action="https://jsonplaceholder.typicode.com/posts/" multiple list-type="picture-card" :on-preview="handlePictureCardPreview"
+                            :on-remove="handleRemove" :before-upload="beforeAvatarUpload" :on-success="uploadSuccess" :on-error="uploadError">
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                    </el-form-item> -->
+                    <el-form-item class="form-control-btn">
+                        <el-button type="primary" @click="submitForm('form')" size="mini" :loading="subLoading">提交</el-button>
+                    </el-form-item>
+                </el-form>
             </div>
         </div>
     </div>
@@ -144,18 +117,30 @@
     var app = new Vue({
         el: '#info',
         data: {
-            this_year: new Date().getFullYear(), //当前年份
+            //菜单控制
+            menuControl: true,
             search_value: '',
             //内容信息
             collection_detail: {},
-            //热门/最新切换控制
-            other_click: true,
-            //热门藏品
-            hotCollection1: [],
-            hotCollection2: [],
-            //最新藏品
-            newCollection1: [],
-            newCollection2: []
+            //藏品外借
+            subLoading: false,
+            collection_borrow: {
+                per: '',
+                tel: ''
+            },
+            //表单验证
+            rules: {
+                title: [{
+                    required: true,
+                    message: "请输入藏品名称",
+                    trigger: "blur"
+                }],
+                tel: [{
+                    required: true,
+                    message: "请输入联系电话",
+                    trigger: "blur"
+                }],
+            },
         },
         mounted: function () {
             var that = this;
@@ -166,27 +151,15 @@
                     window.location.href = '../info.html';
                 }
             }
-            //获取所属院系
+            //获取藏品详情
             function getCollectionDetail() {
                 return axios.get('./mock/collectionDetail.json');
             }
-            //获取热门藏品
-            function getHotCollection() {
-                return axios.get('./mock/hotCollection.json');
-            }
-            //获取最新藏品
-            function getNewCollection() {
-                return axios.get('./mock/hotCollection2.json');
-            }
             //ajax并发
-            axios.all([getCollectionDetail(), getHotCollection(), getNewCollection()])
-                .then(axios.spread(function (collectionDetail, hotcollection, newcollection) {
+            axios.all([getCollectionDetail()])
+                .then(axios.spread(function (collectionDetail) {
                     // 藏品详情
                     that.collection_detail = collectionDetail.data;
-                    // 热门藏品
-                    that.waterfall(that.hotCollection1, that.hotCollection2, hotcollection.data);
-                    //最新藏品
-                    that.waterfall(that.newCollection1, that.newCollection2, newcollection.data);
                 }));
         },
         methods: {
@@ -194,104 +167,10 @@
                 sessionStorage.setItem('search_keyword', this.search_value);
                 window.location.href = './search.html';
             },
-            //热门/最新切换
-            otherSwitch: function () {
-                this.other_click = !this.other_click;
+            //菜单控制
+            menu_control: function () {
+                this.menuControl = !this.menuControl;
             },
-            //刷新热门藏品
-            hot_refesh: function () {
-                var that = this;
-                axios({
-                    method: "get", //需要把get改成post
-                    url: './mock/hotCollection2.json',
-                    data: {},
-                    //格式化
-                    transformRequest: [
-                        function (data) {
-                            var ret = "";
-                            for (var i = 0; i < data.length; i++) {
-                                ret +=
-                                    encodeURIComponent(it) +
-                                    "=" +
-                                    encodeURIComponent(data[it]) +
-                                    "&";
-                            }
-                            ret = ret.slice(0, -1); // 去掉最后的空行
-                            return ret;
-                        }
-                    ],
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                }).then(function (res) {
-                    that.hotCollection1 = [];
-                    that.hotCollection2 = [];
-                    // 热门藏品
-                    that.waterfall(that.hotCollection1, that.hotCollection2, res.data);
-                }).catch(function (error) {
-                    that.$message.error("刷新失败!");
-                });
-            },
-            //控制伪瀑布流
-            waterfall: function (data1, data2, res) {
-                for (var i = 0; i < res.length; i++) {
-                    // 超过8个不做显示
-                    if (i < 4) {
-                        data1.push(res[i])
-                    } else if (i == 4 || i > 4 && i < 8) {
-                        data2.push(res[i])
-                    }
-                }
-            },
-            //ajax
-            sendAjax: function () {
-                var that = this;
-                axios({
-                    method: "get", //需要把get改成post
-                    url: './mock/collection.json',
-                    data: {
-                        title: that.form.title, //藏品名称
-                        type: that.form.type, //藏品类型
-                        author: that.form.author, //作者
-                        videoUrl: that.form.videoUrl, //视频连接
-                        creatDate: that.form.creatDate, //创建时间
-                        department: that.form.department, //所属院系
-                        category: that.form.category, //藏品类别
-                        introduction: that.form.introduction, //藏品简介
-                        uploadingPerson: that.form.uploadingPerson, //上传人
-                        tel: that.form.tel, //联系电话
-                        uploadImg: that.form.uploadImg //图片上传
-                    },
-                    //格式化
-                    transformRequest: [
-                        function (data) {
-                            var ret = "";
-                            for (var i = 0; i < data.length; i++) {
-                                ret +=
-                                    encodeURIComponent(it) +
-                                    "=" +
-                                    encodeURIComponent(data[it]) +
-                                    "&";
-                            }
-                            ret = ret.slice(0, -1); // 去掉最后的空行
-                            return ret;
-                        }
-                    ],
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                }).then(function (res) {
-                    that.$message({
-                        type: "success",
-                        message: "提交成功!"
-                    });
-                    that.subLoading = false;
-                }).catch(function (error) {
-                    that.$message.error("提交失败!");
-                    that.subLoading = false;
-                    console.log(error);
-                });
-            }
         },
     })
 </script>
